@@ -1,0 +1,67 @@
+
+[versions]
+
+
+gson="2.10.1"
+
+jei-version="11.5.0.297"
+registrate="MC1.19-1.1.5"
+flywheel="0.6.10-20"
+create="com.simibubi.create:create-1.19.2:0.5.1.f-46:slim"
+kubejs="1902.6.2-build.57"
+mixin-extras="0.3.5"
+rei="9.1.682"
+create-fabric="0.5.1-c-build.1160+mc1.19.2"
+
+
+
+minecraft-version="1.19.2"
+enabled-platforms="fabric,forge"
+archives-base-name="dovehome"
+mod-version="1.0.0-SNAPSHOT"
+maven-group="io.github.dove-home-team"
+architectury-plugin="3.4-SNAPSHOT"
+dev-architectury-loom="1.5-SNAPSHOT"
+forgix="1.2.6"
+parchment="2022.11.27"
+fabric-loader-version="0.15.6"
+fabric-api-version="0.77.0"
+forge-version="43.3.7"
+architectury-version="6.5.85"
+shadow="8.1.1"
+detekt = "1.23.5"
+kotlin = "1.9.22"
+ktlintGradle = "12.1.0"
+pluginPublish = "1.2.1"
+versionCheck = "0.51.0"
+dove-home-plugin="1.0.0-SNAPSHOT"
+
+[plugins]
+
+dove-home-plugin={ id="io.github.dove-home-team.dovehome.plugin", version.ref="dove-home-plugin" }
+architectury-plugin={ id="architectury-plugin", version.ref="architectury-plugin" }
+java={ id="java" }
+maven-publish={ id="maven-publish" }
+dev-architectury-loom={ id="dev.architectury.loom", version.ref="dev-architectury-loom" }
+forgix={ id="io.github.pacifistmc.forgix", version.ref="forgix" }
+shadow={ id="com.github.johnrengelman.shadow", version.ref="shadow" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt"}
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin"}
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradle"}
+pluginPublish = { id = "com.gradle.plugin-publish", version.ref = "pluginPublish"}
+versionCheck = { id = "com.github.ben-manes.versions", version.ref = "versionCheck"}
+[libraries]
+
+# com.simibubi.create:create-fabric-1.19.2
+create-fabric={ group="com.simibubi.create", name="create-fabric-1.19.2", version.ref="create-fabric" }
+gson-overwrite={ group="com.google.code.gson", name="gson", version.ref="gson" }
+rei-api-forge={ group="me.shedaniel", name="RoughlyEnoughItems-api-forge", version.ref="rei" }
+rei-forge={ group="me.shedaniel", name="RoughlyEnoughItems-forge", version.ref="rei" }
+mixin-extras={ group="io.github.llamalad7", name="mixinextras-common", version.ref="mixin-extras" }
+mixin-extras-forge={ group="io.github.llamalad7", name="mixinextras-forge", version.ref="mixin-extras" }
+kubejs-forge={ group="dev.latvian.mods", name="kubejs-forge", version.ref="kubejs" }
+dev-architectury-loom={ group="dev.architectury", name="architectury-loom", version.ref="dev-architectury-loom" }
+architectury-plugin={ group="architectury-plugin", name="architectury-plugin.gradle.plugin", version.ref="architectury-plugin" }
+registrate={ group="com.tterrag.registrate", name="Registrate", version.ref="registrate" }
+flywheel={ group="com.jozufozu.flywheel", name="flywheel-forge-1.19.2", version.ref="flywheel" }
+[bundles]

@@ -8,7 +8,7 @@ import io.github.dovehome.create.next.generation.kjs.TagGetJS;
 public interface CreateNextGenerationEvents {
     EventGroup group = EventGroup.of("CreateNextGenerationEvents");
     EventHandler heatLevel = group.startup("getHeatLevel", () -> GetHeatLevel.class);
-    EventHandler tryUpdateLevel = group.startup("getHeatLevel", () -> TryUpdateFuel.class);
+    EventHandler tryUpdateLevel = group.startup("tryUpdateLevel", () -> TryUpdateFuel.class);
     TagGetJS tag = new TagGetJS();
 
 }

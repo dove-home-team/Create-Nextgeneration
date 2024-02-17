@@ -2,9 +2,13 @@
 
 architectury {
     common(libs.versions.enabled.platforms.get().split(","))
+    injectInjectables = false
 }
 
 loom {
+    mixin {
+        defaultRefmapName.set("mixins.create-next-generation.refmap.json")
+    }
     accessWidenerPath.set(file("src/main/resources/create-next-generation.accesswidener"))
 }
 

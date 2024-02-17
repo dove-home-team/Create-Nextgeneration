@@ -44,19 +44,24 @@ dependencies {
 }
 
 tasks.processResources {
-    set(
+    val mapOf: Map<String, String> = mapOf(
             "version" to version.toString(),
             "forge_version" to libs.versions.forge.version.get().split(".")[0], // only specify major version of forge
             "minecraft_version" to libs.versions.minecraft.version.get(),
-            "create_version" to libs.versions.create.forge.get().split(":")[2] // cut off build number
+            "create_version" to libs.versions.create.forge.get().split(":")[2].split("-")[0] // cut off build number
     )
+    mapOf.forEach {
+        inputs.property(it.key, it.value)
+    }
+    filesMatching("META-INF/mods.toml") {
+        expand(mapOf)
+    }
 }
 
 loom {
     forge {
         mixinConfig(
-                "create-next-generation.mixins.json",
-                "create-next-generation-common.mixins.json",
+                "create-next-generation.mixins.json"
         )
     }
 }
@@ -88,15 +93,5 @@ components.getByName("java") {
     this as AdhocComponentWithVariants
     withVariantsFromConfiguration(project.configurations.getByName("shadowRuntimeElements")) {
         skip()
-    }
-}
-
-fun ProcessResources.set(vararg vars: Pair<String, String>) {
-    val mapOf: Map<String, String> = mapOf(*vars)
-    mapOf.forEach {
-        inputs.property(it.key, it.value)
-    }
-    filesMatching("META-INF/mods.toml") {
-        expand(mapOf)
     }
 }

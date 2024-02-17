@@ -1,5 +1,11 @@
+@file:Suppress("UNCHECKED_CAST")
+
+import groovy.lang.Closure
+import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.FabricContainer
+import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.ForgeContainer
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
 import org.gradle.accessors.dm.LibrariesForLibs
+import org.gradle.launcher.daemon.protocol.Build
 
 plugins {
     `java-library`
@@ -7,7 +13,7 @@ plugins {
     alias(libs.plugins.dev.architectury.loom).apply(false)
     alias(libs.plugins.shadow).apply(false)
     `maven-publish`
-
+    alias(libs.plugins.forgix)
 }
 
 architectury {
@@ -24,9 +30,6 @@ subprojects {
         plugin(lib.plugins.maven.publish.get().pluginId)
     }
 
-    version = lib.versions.mod.version.get()
-    base.archivesName = "creative-next-generation"
-
 
     val loom = project.extensions.getByName<LoomGradleExtensionAPI>("loom")
     loom.silentMojangMappingsLicense()
@@ -42,7 +45,7 @@ subprojects {
 
     publishing {
         publications.create<MavenPublication>(project.name + "Maven") {
-            artifactId = base.archivesName.get()
+            artifactId = lib.versions.archives.base.name.get()
             from(components["java"])
         }
         repositories {
@@ -110,9 +113,10 @@ allprojects {
         }
     }
 
-    base.archivesName.set(project.name.split("-")[0])
+    base.archivesName.set(lib.versions.archives.base.name.get())
 
     group = lib.versions.maven.group.get()
+    version = lib.versions.mod.version.get()
 
     tasks.withType<JavaCompile>().configureEach {
         options.encoding = "UTF-8"
@@ -122,4 +126,32 @@ allprojects {
         withSourcesJar()
     }
 }
+
+forgix {
+    group = libs.versions.maven.group.get()
+    outputDir = "build/libs/forgix"
+    mergedJarName = "${libs.versions.archives.base.name.get()}-${libs.versions.minecraft.version.get()}-${project.version}.jar"
+
+    val closureOf: Closure<Any?> = closureOf<ForgeContainer> {
+        projectName = "forge"
+        jarLocation = "build/libs/${libs.versions.archives.base.name.get()}-${project.version}.jar"
+    }
+
+    forge(closureOf as Closure<ForgeContainer>)
+
+    val fabricClosure: Closure<Any?> = closureOf<FabricContainer> {
+        projectName = "fabric"
+        jarLocation = "build/libs/${libs.versions.archives.base.name.get()}-${project.version}.jar"
+    }
+    fabric(fabricClosure as Closure<FabricContainer>)
+
+}
+
+tasks.build {
+    dependsOn(project(":fabric").tasks.build.get())
+    dependsOn(project(":forge").tasks.build.get())
+    dependsOn(tasks.mergeJars)
+}
+
+
 

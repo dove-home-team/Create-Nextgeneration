@@ -6,7 +6,10 @@
   "client": [
   ],
   "mixins": [
-    "MixinAllItemTags"
+    "MixinAllItemTags",
+    "MixinBlazeBurnerBlockEntity",
+    "MixinFlameType",
+    "MixinFuelType"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -14,12 +14,12 @@
   },
   "license": "MIT",
   "environment": "*",
+  "icon": "icon.png",
   "entrypoints": {
 
   },
   "mixins": [
-    "create-next-generation.mixins.json",
-    "create-next-generation-common.mixins.json"
+    "create-next-generation.mixins.json"
   ],
   "depends": {
     "minecraft": "${minecraft_version}",

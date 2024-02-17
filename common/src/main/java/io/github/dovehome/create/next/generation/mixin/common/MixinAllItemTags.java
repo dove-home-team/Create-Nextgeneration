@@ -1,7 +1,7 @@
 package io.github.dovehome.create.next.generation.mixin.common;
 
 import com.simibubi.create.AllTags;
-import io.github.dovehome.create.next.generation.config.CreativeGenerationConfig;
+import io.github.dovehome.create.next.generation.Constant;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
@@ -19,7 +19,8 @@ public class MixinAllItemTags {
     private static AllTags.AllItemTags[] $VALUES;
 
     static {
-        CreativeGenerationConfig
+        Constant
+                .Config
                 .blazeBurner
                 .get()
                 .itemTags

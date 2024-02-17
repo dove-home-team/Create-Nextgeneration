@@ -3,6 +3,13 @@ architectury {
     fabric()
 }
 
+loom {
+    mixin {
+        defaultRefmapName.set("mixins.create-next-generation.refmap.json")
+    }
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+}
+
 val common: Configuration by configurations.creating
 val shadowCommon: Configuration by configurations.creating
 val developmentFabric: Configuration by configurations.getting
@@ -33,13 +40,19 @@ dependencies {
 
 }
 tasks.processResources {
-    set(
+    val mapOf: Map<String, String> = mapOf(
             "version" to version.toString(),
-            "fabric-loader-version" to libs.versions.fabric.loader.version.get(),
+            "fabric_loader_version" to libs.versions.fabric.loader.version.get(),
             "fabric_api_version" to libs.versions.fabric.api.version.get(),
             "minecraft_version" to libs.versions.minecraft.version.get(),
-            "create_version" to libs.versions.create.fabric.get(),
+            "create_version" to libs.versions.create.fabric.get().split("-build")[0]
     )
+    mapOf.forEach {
+        inputs.property(it.key, it.value)
+    }
+    filesMatching("fabric.mod.json") {
+        expand(mapOf)
+    }
 }
 
 tasks.shadowJar {
@@ -61,7 +74,7 @@ tasks.jar {
 
 tasks.sourcesJar {
     val commonSources = project(":common").tasks.sourcesJar
-    dependsOn(commonSources.get())
+    dependsOn(commonSources)
     from(commonSources.get().archiveFile.map {
         zipTree(it)
     })
@@ -74,12 +87,4 @@ components.getByName("java") {
     }
 }
 
-fun ProcessResources.set(vararg vars: Pair<String, String>) {
-    val mapOf: Map<String, String> = mapOf(*vars)
-    mapOf.forEach {
-        inputs.property(it.key, it.value)
-    }
-    filesMatching("fabric.mod.json") {
-        expand(mapOf)
-    }
-}
+

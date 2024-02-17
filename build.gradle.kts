@@ -25,6 +25,7 @@ subprojects {
     }
 
     version = lib.versions.mod.version.get()
+    base.archivesName = "creative-next-generation"
 
 
     val loom = project.extensions.getByName<LoomGradleExtensionAPI>("loom")
@@ -61,6 +62,7 @@ allprojects {
         maven { url = uri("https://maven.jamieswhiteshirt.com/libs-release") } // Reach Entity Attributes
         maven { url = uri("https://cursemaven.com") } // Forge Config API Port
         maven { url = uri("https://maven.cafeteria.dev/releases") } // Fake Player API
+        maven { url = uri("https://maven.terraformersmc.com/releases/") }
         maven {
             url = uri("https://maven.parchmentmc.org")
             name = "parchment mc"

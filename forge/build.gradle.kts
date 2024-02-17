@@ -1,25 +1,34 @@
+import net.fabricmc.loom.api.ForgeExtensionAPI
+
 architectury {
     platformSetupLoomIde()
-    fabric()
+    forge()
+}
+
+loom {
+    accessWidenerPath.set(project(":common").loom.accessWidenerPath)
+    forge {
+        convertAccessWideners.set(true)
+        extraAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
+    }
 }
 
 val common: Configuration by configurations.creating
 val shadowCommon: Configuration by configurations.creating
-val developmentFabric: Configuration by configurations.getting
+val developmentForge: Configuration by configurations.getting
 
 configurations {
     compileClasspath.configure { extendsFrom(common) }
     runtimeClasspath.configure { extendsFrom(common) }
-    developmentFabric.extendsFrom(common)
+    developmentForge.extendsFrom(common)
 }
 
 dependencies {
-    modImplementation("net.fabricmc:fabric-loader:${libs.versions.fabric.loader.version.get()}")
-    modApi("net.fabricmc.fabric-api:fabric-api:${libs.versions.fabric.api.version.get()}+${libs.versions.minecraft.version.get()}")
-    modApi("dev.architectury:architectury-fabric:${libs.versions.architectury.version.get()}")
-    modImplementation(libs.create.fabric)
-    modImplementation(libs.kubejs.fabric)
+    forge("net.minecraftforge:forge:${libs.versions.minecraft.version.get()}-${libs.versions.forge.version.get()}")
+    modApi("dev.architectury:architectury-forge:${libs.versions.architectury.version.get()}")
+    modImplementation(libs.kubejs.forge)
     implementation(libs.gson.overwrite)
+    forgeRuntimeLibrary(libs.gson.overwrite)
     include(libs.gson.overwrite)
     common(project(":common", "namedElements")) {
         isTransitive = false
@@ -27,29 +36,39 @@ dependencies {
     shadowCommon(project(":common", "transformProductionFabric")) {
         isTransitive = false
     }
-    modLocalRuntime(libs.lazy.dfu)
-    modLocalRuntime(libs.mod.menu)
-
-
+    modImplementation(libs.flywheel)
+    modImplementation(libs.registrate)
+    modImplementation(libs.versions.create.forge.get()) {
+        isTransitive = false
+    }
 }
+
 tasks.processResources {
     set(
             "version" to version.toString(),
-            "fabric-loader-version" to libs.versions.fabric.loader.version.get(),
-            "fabric_api_version" to libs.versions.fabric.api.version.get(),
+            "forge_version" to libs.versions.forge.version.get().split(".")[0], // only specify major version of forge
             "minecraft_version" to libs.versions.minecraft.version.get(),
-            "create_version" to libs.versions.create.fabric.get(),
+            "create_version" to libs.versions.create.forge.get().split(":")[2] // cut off build number
     )
 }
 
+loom {
+    forge {
+        mixinConfig(
+                "create-next-generation.mixins.json",
+                "create-next-generation-common.mixins.json",
+        )
+    }
+}
+
 tasks.shadowJar {
+    exclude("fabric.mod.json")
     exclude("architectury.common.json")
     configurations = listOf(shadowCommon)
     archiveClassifier.set("dev-shadow")
 }
 
 tasks.remapJar {
-    injectAccessWidener = true
     inputFile.set(tasks.shadowJar.get().archiveFile)
     dependsOn(tasks.shadowJar.get())
     archiveClassifier.set(null as String?)
@@ -60,11 +79,9 @@ tasks.jar {
 }
 
 tasks.sourcesJar {
-    val commonSources = project(":common").tasks.sourcesJar
+    var commonSources = project(":common").tasks.sourcesJar
     dependsOn(commonSources.get())
-    from(commonSources.get().archiveFile.map {
-        zipTree(it)
-    })
+            from (commonSources.get().archiveFile.map { zipTree(it) })
 }
 
 components.getByName("java") {
@@ -79,7 +96,7 @@ fun ProcessResources.set(vararg vars: Pair<String, String>) {
     mapOf.forEach {
         inputs.property(it.key, it.value)
     }
-    filesMatching("fabric.mod.json") {
+    filesMatching("META-INF/mods.toml") {
         expand(mapOf)
     }
 }

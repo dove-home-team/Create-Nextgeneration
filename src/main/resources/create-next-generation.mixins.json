@@ -6,6 +6,8 @@
   "client": [
   ],
   "mixins": [
+    "MixinBlazeBurnerBlockEntity",
+    "MixinHeatLevel"
   ],
   "injectors": {
     "defaultRequire": 1

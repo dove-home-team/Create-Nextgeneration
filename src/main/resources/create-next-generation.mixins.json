@@ -5,11 +5,13 @@
   "compatibilityLevel": "JAVA_17",
   "client": [
     "MixinAnimatedBlazeBurner",
+    "MixinBlazeBurnerBlockEntity",
     "MixinBlazeBurnerBlockEntityClient",
-    "MixinBlazeBurnerBlockEntity"
+    "MixinBlazeBurnerBlockClient"
   ],
   "mixins": [
     "MixinBlazeBurnerRender",
+    "MixinHeatCondition",
     "MixinHeatLevel"
   ],
   "injectors": {

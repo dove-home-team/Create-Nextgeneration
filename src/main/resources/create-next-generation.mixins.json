@@ -4,9 +4,12 @@
   "package": "io.github.dovehome.create.next.generation.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "MixinAnimatedBlazeBurner",
+    "MixinBlazeBurnerBlockEntityClient",
+    "MixinBlazeBurnerBlockEntity"
   ],
   "mixins": [
-    "MixinBlazeBurnerBlockEntity",
+    "MixinBlazeBurnerRender",
     "MixinHeatLevel"
   ],
   "injectors": {

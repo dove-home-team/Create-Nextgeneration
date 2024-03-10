@@ -542,6 +542,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
         }
     }
 
+
     @Redirect(method = "spawnParticles", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlock$HeatLevel;isAtLeast(Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlock$HeatLevel;)Z"))
     private boolean redirect_spawnParticles_first_addParticle(BlazeBurnerBlock.HeatLevel instance, BlazeBurnerBlock.HeatLevel heatLevel) {
         return instance.isAtLeast(heatLevel) && HeatLevelEx.isAtMost(instance, BlazeBurnerBlock.HeatLevel.SEETHING);

@@ -110,6 +110,14 @@ repositories {
             includeGroup("dev.architectury")
         }
     }
+
+
+    maven { // TOP
+        url "https://maven.k-4u.nl"
+        content {
+            includeGroup("mcjty.theoneprobe")
+        }
+    }
 }
 
 dependencies {
@@ -128,8 +136,10 @@ dependencies {
 
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
-    // at runtime, use the full JEI jar for Forge
+//     at runtime, use the full JEI jar for Forge
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+
+    implementation fg.deobf("mcjty.theoneprobe:theoneprobe:${top_version}") { transitive = false }
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

@@ -1,0 +1,21 @@
+{
+  "createnextgeneration.gui.goggles.burner_stat": "燃烧室状态：%1$s",
+  "createnextgeneration.gui.goggles.burner_stat.none": "空",
+  "createnextgeneration.gui.goggles.burner_stat.smouldering": "阴燃",
+  "createnextgeneration.gui.goggles.burner_stat.kindled": "普通加热",
+  "createnextgeneration.gui.goggles.burner_stat.seething": "超级加热",
+  "createnextgeneration.gui.goggles.burner_stat.rage": "暴怒加热",
+  "createnextgeneration.gui.goggles.burner_stat.overload": "过载加热",
+  "createnextgeneration.gui.goggles.burner_stat.exterminate": "坍毁加热",
+  "createnextgeneration.gui.goggles.burner_stat.dragon_breath": "龙息加热",
+  "createnextgeneration.gui.goggles.burner_stat.ghost": "鬼缠加热",
+  "createnextgeneration.gui.goggles.burner_stat.smooth": "平缓加热",
+  "createnextgeneration.gui.goggles.burner_stat.potential_activated": "潜能激发",
+  "createnextgeneration.gui.goggles.burner_stat.cooldown": "过载冷却中",
+  "createnextgeneration.gui.goggles.burner_stat.burn_time": "剩余燃烧时间: %1$s",
+  "createnextgeneration.gui.goggles.burner_stat.cool_time": "冷却时间：%1$s",
+  "createnextgeneration.gui.goggles.burner_stat.crafting_times": "剩余配方次数：%1$s",
+  "createnextgeneration.gui.goggles.burner_stat.burn_time.infinite": "无限",
+  "createnextgeneration.gui.goggles.burner_stat.burn_time.seconds": "%1$s 秒",
+  "createnextgeneration.gui.goggles.burner_stat.burn_time.times": "%1$s 次"
+}

@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Optional;
 
-@Mixin(BasinOperatingBlockEntity.class)
+@Mixin(value = BasinOperatingBlockEntity.class, remap = false)
 public abstract class MixinBasinOperatingBlockEntity extends KineticBlockEntity {
 
     private MixinBasinOperatingBlockEntity(BlockEntityType<?> typeIn, BlockPos pos, BlockState state) {

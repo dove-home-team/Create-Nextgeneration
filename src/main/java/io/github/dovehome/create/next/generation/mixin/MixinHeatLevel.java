@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Arrays;
 
@@ -48,13 +49,11 @@ public abstract class MixinHeatLevel {
         return ret;
     }
 
-    /**
-     * @author WarmthDawn
-     * @reason too simple to inject
-     */
-    @Overwrite
-    public boolean isAtLeast(BlazeBurnerBlock.HeatLevel heatLevel) {
-        return  HeatLevelEx.getActualIndex((BlazeBurnerBlock.HeatLevel) (Object) this) >= HeatLevelEx.getActualIndex(heatLevel);
+    @Inject(method = "isAtLeast", at = @At("HEAD"), cancellable = true)
+    public void inject_isAtLeast(BlazeBurnerBlock.HeatLevel heatLevel, CallbackInfoReturnable<Boolean> cir) {
+        boolean ret =  HeatLevelEx.getActualIndex((BlazeBurnerBlock.HeatLevel) (Object) this) >= HeatLevelEx.getActualIndex(heatLevel);
+        cir.setReturnValue(ret);
+        cir.cancel();
     }
 
 }

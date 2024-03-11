@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(value = BlazeBurnerBlock.class)
 public abstract class MixinBlazeBurnerBlockClient {
 
-
     @Redirect(method = "animateTick",
             at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlock$HeatLevel;isAtLeast(Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlock$HeatLevel;)Z"))
     private boolean redirect_animateTick_isAtLeast(BlazeBurnerBlock.HeatLevel heatLevel, BlazeBurnerBlock.HeatLevel level) {

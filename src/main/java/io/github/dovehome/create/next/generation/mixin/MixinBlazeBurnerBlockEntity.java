@@ -45,7 +45,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.util.List;
 import java.util.Random;
 
-@Mixin(value = BlazeBurnerBlockEntity.class)
+@Mixin(value = BlazeBurnerBlockEntity.class, remap = false)
 public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity implements IHaveGoggleInformation, IBlazeBurnerBlockEntityExt {
     @Unique
     private static final int SMOOTH_TICKS = 60 * 20;

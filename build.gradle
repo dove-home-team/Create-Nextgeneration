@@ -90,7 +90,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 mixin {
     // MixinGradle Settings
     config "${mod_id}.mixins.json"
-//    add sourceSets.main, "mixins.${mod_id}.refmap.json"
+    add sourceSets.main, "mixins.${mod_id}.refmap.json"
 }
 repositories {
     maven {
@@ -130,6 +130,9 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft "net.minecraftforge:forge:${forge_version}"
+    if (!Boolean.getBoolean('idea.sync.active')) {
+        annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
+    }
 
     implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
     runtimeOnly fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")

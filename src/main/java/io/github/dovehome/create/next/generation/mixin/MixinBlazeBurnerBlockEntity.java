@@ -13,6 +13,7 @@ import io.github.dovehome.create.next.generation.data.ExtendBurnerState;
 import io.github.dovehome.create.next.generation.data.HeatLevelEx;
 import io.github.dovehome.create.next.generation.particles.CNGParticleTypes;
 import io.github.dovehome.create.next.generation.utility.CNGLang;
+import io.github.dovehome.create.next.generation.utility.IBlazeBurnerBlockEntityExt;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
@@ -45,7 +46,7 @@ import java.util.List;
 import java.util.Random;
 
 @Mixin(value = BlazeBurnerBlockEntity.class)
-public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity implements IHaveGoggleInformation {
+public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity implements IHaveGoggleInformation, IBlazeBurnerBlockEntityExt {
     @Unique
     private static final int SMOOTH_TICKS = 60 * 20;
     @Unique
@@ -166,6 +167,25 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
         }
 
         return true;
+    }
+
+
+    @Override
+    @Unique
+    public void create$generation$consumeFuel() {
+        if (isCreative) {
+            return;
+        }
+        if (creative$generation$extendState == ExtendBurnerState.DRAGON_BREATH) {
+            creative$generation$ramainingCraftingTimes--;
+            notifyUpdate();
+            if (creative$generation$ramainingCraftingTimes <= 0) {
+                creative$generation$extendState = ExtendBurnerState.DEFAULT;
+                remainingBurnTime = MAX_HEAT_CAPACITY / 2;
+                activeFuel = BlazeBurnerBlockEntity.FuelType.NORMAL;
+                updateBlockState();
+            }
+        }
     }
 
     @Unique

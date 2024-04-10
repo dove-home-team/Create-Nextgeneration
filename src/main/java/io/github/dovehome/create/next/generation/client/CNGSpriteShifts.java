@@ -18,12 +18,12 @@ public class CNGSpriteShifts {
         return get(Create.asResource("block/blaze_burner_flame"), targetLocation);
     }
 
-    public static final SpriteShiftEntry RAGE_BURNER_FLAME = getBurnerFlame("block/blaze_burner_flame_rage_scroll");
+    public static final SpriteShiftEntry HOT_HEATED_BURNER_FLAME = getBurnerFlame("block/blaze_burner_flame_hot_heated_scroll");
     public static final SpriteShiftEntry OVERLOAD_BURNER_FLAME = getBurnerFlame("block/blaze_burner_flame_overload_scroll");
-    public static final SpriteShiftEntry EXTERMINATE_BURNER_FLAME = getBurnerFlame("block/blaze_burner_flame_exterminate_scroll");
+    public static final SpriteShiftEntry COLLAPSE_BURNER_FLAME = getBurnerFlame("block/blaze_burner_flame_collapse_scroll");
     public static final SpriteShiftEntry DRAGON_BREATH_BURNER_FLAME = getBurnerFlame("block/blaze_burner_flame_dragon_breath_scroll");
     public static final SpriteShiftEntry GHOST_BURNER_FLAME = getBurnerFlame("block/blaze_burner_flame_ghost_scroll");
-    public static final SpriteShiftEntry SMOOTH_BURNER_FLAME = getBurnerFlame("block/blaze_burner_flame_smooth_scroll");
+    public static final SpriteShiftEntry GENTLY_BURNER_FLAME = getBurnerFlame("block/blaze_burner_flame_gently_scroll");
 
 
 

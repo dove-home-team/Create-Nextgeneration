@@ -25,8 +25,8 @@ public class CNGTags {
 
 
     public static final TagKey<Item> BLAZE_BURNER_CATALYST_POTENTIAL = optionalItemTag(new ResourceLocation(CreateNextGeneration.MODID, "blaze_burner_catalyst/potential"));
-    public static final TagKey<Item> BLAZE_BURNER_CATALYST_SMOOTH = optionalItemTag(new ResourceLocation(CreateNextGeneration.MODID, "blaze_burner_catalyst/smooth"));
-    public static final TagKey<Item> BLAZE_BURNER_CATALYST_SMOOTH_WAKEUP = optionalItemTag(new ResourceLocation(CreateNextGeneration.MODID, "blaze_burner_catalyst/smooth_wakeup"));
+    public static final TagKey<Item> BLAZE_BURNER_CATALYST_GENTLY = optionalItemTag(new ResourceLocation(CreateNextGeneration.MODID, "blaze_burner_catalyst/gently"));
+    public static final TagKey<Item> BLAZE_BURNER_CATALYST_GENTLY_WAKEUP = optionalItemTag(new ResourceLocation(CreateNextGeneration.MODID, "blaze_burner_catalyst/gently_wakeup"));
 
     public static final TagKey<Item> BLAZE_BURNER_FUEL_GHOST = optionalItemTag(new ResourceLocation(CreateNextGeneration.MODID, "blaze_burner_fuel/ghost"));
     public static final TagKey<Item> BLAZE_BURNER_FUEL_DRAGON_BREATH = optionalItemTag(new ResourceLocation(CreateNextGeneration.MODID, "blaze_burner_fuel/dragon_breath"));

@@ -4,15 +4,15 @@ import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 
 public final class HeatLevelEx {
 
-    public static BlazeBurnerBlock.HeatLevel RAGE;
+    public static BlazeBurnerBlock.HeatLevel HOT_HEATED;
     public static BlazeBurnerBlock.HeatLevel OVERLOAD;
-    public static BlazeBurnerBlock.HeatLevel EXTERMINATE;
+    public static BlazeBurnerBlock.HeatLevel COLLAPSE;
 
 
     public static BlazeBurnerBlock.HeatLevel DRAGON_BREATH; // -4
     public static BlazeBurnerBlock.HeatLevel GHOST; // -3
-    public static BlazeBurnerBlock.HeatLevel SMOOTH_PERMANENT; // -2
-    public static BlazeBurnerBlock.HeatLevel SMOOTH; // -1
+    public static BlazeBurnerBlock.HeatLevel GENTLY_PERMANENT; // -2
+    public static BlazeBurnerBlock.HeatLevel GENTLY; // -1
 
 
     private static class Holder {
@@ -31,18 +31,18 @@ public final class HeatLevelEx {
 
             INDEXES[BlazeBurnerBlock.HeatLevel.SMOULDERING.ordinal()] = i++;
 
-            INDEXES[SMOOTH_PERMANENT.ordinal()] = i++;
-            INDEXES[SMOOTH.ordinal()] = i++;
+            INDEXES[GENTLY_PERMANENT.ordinal()] = i++;
+            INDEXES[GENTLY.ordinal()] = i++;
 
             INDEXES[BlazeBurnerBlock.HeatLevel.FADING.ordinal()] = i++;
             INDEXES[BlazeBurnerBlock.HeatLevel.KINDLED.ordinal()] = i++;
 
-            INDEXES[RAGE.ordinal()] = i++;
+            INDEXES[HOT_HEATED.ordinal()] = i++;
 
             INDEXES[BlazeBurnerBlock.HeatLevel.SEETHING.ordinal()] = i++;
 
             INDEXES[OVERLOAD.ordinal()] = i++;
-            INDEXES[EXTERMINATE.ordinal()] = i++;
+            INDEXES[COLLAPSE.ordinal()] = i++;
 
             if(i != BlazeBurnerBlock.HeatLevel.values().length) {
                 throw new AssertionError();

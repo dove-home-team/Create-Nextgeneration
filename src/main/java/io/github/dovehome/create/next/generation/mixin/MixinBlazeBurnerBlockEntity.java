@@ -50,7 +50,7 @@ import java.util.Random;
 @Mixin(value = BlazeBurnerBlockEntity.class, remap = false)
 public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity implements IHaveGoggleInformation, IBlazeBurnerBlockEntityExt {
     @Unique
-    private static final int SMOOTH_TICKS = 60 * 20;
+    private static final int GENTLY_TICKS = 60 * 20;
     @Unique
     private static final int MAX_DRAGON_BREATH_TIMES = 20;
     @Unique
@@ -107,18 +107,18 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
     @Unique
     private MutableComponent creative$generation$getLevelName(BlazeBurnerBlock.HeatLevel level) {
         Style style = Style.EMPTY;
-        if (level == HeatLevelEx.RAGE) {
-            return CNGLang.translateDirect("gui.goggles.burner_stat.rage").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.HOT_HEATED)));
+        if (level == HeatLevelEx.HOT_HEATED) {
+            return CNGLang.translateDirect("gui.goggles.burner_stat.hot_heated").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.HOT_HEATED)));
         } else if (level == HeatLevelEx.OVERLOAD) {
             return CNGLang.translateDirect("gui.goggles.burner_stat.overload").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.OVERLOAD)));
-        } else if (level == HeatLevelEx.EXTERMINATE) {
-            return CNGLang.translateDirect("gui.goggles.burner_stat.exterminate").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.COLLAPSE)));
+        } else if (level == HeatLevelEx.COLLAPSE) {
+            return CNGLang.translateDirect("gui.goggles.burner_stat.collapse").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.COLLAPSE)));
         } else if (level == HeatLevelEx.DRAGON_BREATH) {
             return CNGLang.translateDirect("gui.goggles.burner_stat.dragon_breath").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.DRAGON_BREATH)));
         } else if (level == HeatLevelEx.GHOST) {
             return CNGLang.translateDirect("gui.goggles.burner_stat.ghost").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.GHOST)));
-        } else if (level == HeatLevelEx.SMOOTH_PERMANENT || level == HeatLevelEx.SMOOTH) {
-            return CNGLang.translateDirect("gui.goggles.burner_stat.smooth").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.GENTLY)));
+        } else if (level == HeatLevelEx.GENTLY_PERMANENT || level == HeatLevelEx.GENTLY) {
+            return CNGLang.translateDirect("gui.goggles.burner_stat.gently").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.GENTLY)));
         } else if (level == BlazeBurnerBlock.HeatLevel.FADING || level == BlazeBurnerBlock.HeatLevel.KINDLED) {
             return CNGLang.translateDirect("gui.goggles.burner_stat.kindled").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.HEATED)));
         } else if (level == BlazeBurnerBlock.HeatLevel.SEETHING) {
@@ -147,7 +147,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
         }
 
         MutableComponent burnTimeComponent;
-        if (isCreative || heatLevel == HeatLevelEx.SMOOTH_PERMANENT) {
+        if (isCreative || heatLevel == HeatLevelEx.GENTLY_PERMANENT) {
             burnTimeComponent = CNGLang.translateDirect("gui.goggles.burner_stat.burn_time.infinite").withStyle(ChatFormatting.GREEN);
         } else if (heatLevel == HeatLevelEx.DRAGON_BREATH) {
             burnTimeComponent = CNGLang.translateDirect("gui.goggles.burner_stat.burn_time.times", creative$generation$ramainingCraftingTimes).withStyle(ChatFormatting.YELLOW);
@@ -155,13 +155,13 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
             burnTimeComponent = CNGLang.translateDirect("gui.goggles.burner_stat.burn_time.seconds", remainingBurnTime / 20).withStyle(ChatFormatting.YELLOW);
         }
 
-        if (heatLevel == HeatLevelEx.SMOOTH) {
+        if (heatLevel == HeatLevelEx.GENTLY) {
             CNGLang.translate("gui.goggles.burner_stat.cooldown").style(ChatFormatting.RED).forGoggles(tooltip, 1);
         }
 
         if (heatLevel == HeatLevelEx.DRAGON_BREATH) {
             CNGLang.translate("gui.goggles.burner_stat.crafting_times", burnTimeComponent).style(ChatFormatting.GRAY).forGoggles(tooltip, 1);
-        } else if (heatLevel == HeatLevelEx.SMOOTH) {
+        } else if (heatLevel == HeatLevelEx.GENTLY) {
             CNGLang.translate("gui.goggles.burner_stat.cool_time", burnTimeComponent).style(ChatFormatting.GRAY).forGoggles(tooltip, 1);
         } else {
             CNGLang.translate("gui.goggles.burner_stat.burn_time", burnTimeComponent).style(ChatFormatting.GRAY).forGoggles(tooltip, 1);
@@ -208,9 +208,9 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
                 case OVERLOAD -> particleType = CNGParticleTypes.OVERLOAD_BURNER_FLAME.get();
                 case DRAGON_BREATH -> particleType = CNGParticleTypes.DRAGON_BREATH_BURNER_FLAME.get();
                 case GHOST -> particleType = CNGParticleTypes.GHOST_BURNER_FLAME.get();
-                case SMOOTH_PERMANENT -> particleType = CNGParticleTypes.SMOOTH_BURNER_FLAME.get();
-                case EXTERMINATE -> particleType = CNGParticleTypes.EXTERMINATE_BURNER_FLAME.get();
-                case RAGE -> particleType = CNGParticleTypes.RAGE_BURNER_FLAME.get();
+                case GENTLY_PERMANENT -> particleType = CNGParticleTypes.GENTLY_BURNER_FLAME.get();
+                case COLLAPSE -> particleType = CNGParticleTypes.COLLAPSE_BURNER_FLAME.get();
+                case HOT_HEATED -> particleType = CNGParticleTypes.HOT_HEATED_BURNER_FLAME.get();
             }
 
             creative$generation$spawnParticleBurst(particleType);
@@ -256,9 +256,9 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
                     }
                     cir.setReturnValue(true);
                     cir.cancel();
-                } else if (activeFuel == BlazeBurnerBlockEntity.FuelType.NONE && itemStack.is(CNGTags.BLAZE_BURNER_CATALYST_SMOOTH)) {
+                } else if (activeFuel == BlazeBurnerBlockEntity.FuelType.NONE && itemStack.is(CNGTags.BLAZE_BURNER_CATALYST_GENTLY)) {
                     if (!simulate) {
-                        creative$generation$extendState = ExtendBurnerState.SMOOTH_PERMANENT;
+                        creative$generation$extendState = ExtendBurnerState.GENTLY_PERMANENT;
                         notifyUpdate();
                         creative$generation$updateAndPlaySound();
                     }
@@ -269,7 +269,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
 
                 // otherwise use old logic
             }
-            case OVERLOAD, EXTERMINATE, SMOOTH_TEMPORARY -> {
+            case OVERLOAD, COLLAPSE, GENTLY_TEMPORARY -> {
                 // do not accept any fuel
                 cir.setReturnValue(false);
                 cir.cancel();
@@ -297,7 +297,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
                     cir.cancel();
                 }
             }
-            case GHOST, RAGE -> {
+            case GHOST, HOT_HEATED -> {
                 boolean isGhost = creative$generation$extendState == ExtendBurnerState.GHOST;
                 if (remainingBurnTime > INSERTION_THRESHOLD && !(forceOverflow && !isGhost)) {
                     cir.setReturnValue(false);
@@ -356,8 +356,8 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
 
 
             }
-            case SMOOTH_PERMANENT -> {
-                if (itemStack.is(CNGTags.BLAZE_BURNER_CATALYST_SMOOTH_WAKEUP)) {
+            case GENTLY_PERMANENT -> {
+                if (itemStack.is(CNGTags.BLAZE_BURNER_CATALYST_GENTLY_WAKEUP)) {
                     if (!simulate) {
                         creative$generation$extendState = ExtendBurnerState.DEFAULT;
                         notifyUpdate();
@@ -395,10 +395,10 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
             case OVERLOAD -> cir.setReturnValue(HeatLevelEx.OVERLOAD);
             case DRAGON_BREATH -> cir.setReturnValue(HeatLevelEx.DRAGON_BREATH);
             case GHOST -> cir.setReturnValue(HeatLevelEx.GHOST);
-            case EXTERMINATE -> cir.setReturnValue(HeatLevelEx.EXTERMINATE);
-            case RAGE -> cir.setReturnValue(HeatLevelEx.RAGE);
-            case SMOOTH_PERMANENT -> cir.setReturnValue(HeatLevelEx.SMOOTH_PERMANENT);
-            case SMOOTH_TEMPORARY -> cir.setReturnValue(HeatLevelEx.SMOOTH);
+            case COLLAPSE -> cir.setReturnValue(HeatLevelEx.COLLAPSE);
+            case HOT_HEATED -> cir.setReturnValue(HeatLevelEx.HOT_HEATED);
+            case GENTLY_PERMANENT -> cir.setReturnValue(HeatLevelEx.GENTLY_PERMANENT);
+            case GENTLY_TEMPORARY -> cir.setReturnValue(HeatLevelEx.GENTLY);
         }
         cir.cancel();
     }
@@ -431,7 +431,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
 
             // 60s
             if (creative$generation$burningTicks >= 60 * 20) {
-                creative$generation$extendState = ExtendBurnerState.RAGE;
+                creative$generation$extendState = ExtendBurnerState.HOT_HEATED;
                 creative$generation$burningTicks = 0;
 
                 remainingBurnTime /= 2;
@@ -449,7 +449,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
 
         ci.cancel();
 
-        if (creative$generation$extendState == ExtendBurnerState.SMOOTH_PERMANENT) {
+        if (creative$generation$extendState == ExtendBurnerState.GENTLY_PERMANENT) {
             // do nothing
             return;
         }
@@ -461,7 +461,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
         }
 
 
-        if (creative$generation$extendState == ExtendBurnerState.RAGE) {
+        if (creative$generation$extendState == ExtendBurnerState.HOT_HEATED) {
             if (remainingBurnTime > 0) {
                 remainingBurnTime--;
             } else {
@@ -477,27 +477,27 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
             if (remainingBurnTime > 0) {
                 remainingBurnTime--;
             } else {
-                remainingBurnTime = SMOOTH_TICKS;
+                remainingBurnTime = GENTLY_TICKS;
                 activeFuel = BlazeBurnerBlockEntity.FuelType.NONE;
-                creative$generation$extendState = ExtendBurnerState.SMOOTH_TEMPORARY;
+                creative$generation$extendState = ExtendBurnerState.GENTLY_TEMPORARY;
                 updateBlockState();
             }
             return;
         }
 
-        if (creative$generation$extendState == ExtendBurnerState.EXTERMINATE) {
+        if (creative$generation$extendState == ExtendBurnerState.COLLAPSE) {
             if (remainingBurnTime > 0) {
                 remainingBurnTime--;
             } else {
-                remainingBurnTime = SMOOTH_TICKS;
+                remainingBurnTime = GENTLY_TICKS;
                 activeFuel = BlazeBurnerBlockEntity.FuelType.NONE;
-                creative$generation$extendState = ExtendBurnerState.SMOOTH_TEMPORARY;
+                creative$generation$extendState = ExtendBurnerState.GENTLY_TEMPORARY;
                 updateBlockState();
             }
             return;
         }
 
-        if (creative$generation$extendState == ExtendBurnerState.SMOOTH_TEMPORARY) {
+        if (creative$generation$extendState == ExtendBurnerState.GENTLY_TEMPORARY) {
             if (remainingBurnTime > 0) {
                 remainingBurnTime--;
             } else {
@@ -512,7 +512,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
                 remainingBurnTime--;
             } else {
                 activeFuel = BlazeBurnerBlockEntity.FuelType.NONE;
-                creative$generation$extendState = ExtendBurnerState.SMOOTH_PERMANENT;
+                creative$generation$extendState = ExtendBurnerState.GENTLY_PERMANENT;
                 updateBlockState();
             }
         }
@@ -548,18 +548,18 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
             return;
         }
         SimpleParticleType particleType = null;
-        if (heatLevel == HeatLevelEx.EXTERMINATE) {
-            particleType = CNGParticleTypes.EXTERMINATE_BURNER_FLAME.get();
+        if (heatLevel == HeatLevelEx.COLLAPSE) {
+            particleType = CNGParticleTypes.COLLAPSE_BURNER_FLAME.get();
         } else if (heatLevel == HeatLevelEx.OVERLOAD) {
             particleType = CNGParticleTypes.OVERLOAD_BURNER_FLAME.get();
-        } else if (heatLevel == HeatLevelEx.RAGE) {
-            particleType = CNGParticleTypes.RAGE_BURNER_FLAME.get();
+        } else if (heatLevel == HeatLevelEx.HOT_HEATED) {
+            particleType = CNGParticleTypes.HOT_HEATED_BURNER_FLAME.get();
         } else if (heatLevel == HeatLevelEx.DRAGON_BREATH) {
             particleType = CNGParticleTypes.DRAGON_BREATH_BURNER_FLAME.get();
         } else if (heatLevel == HeatLevelEx.GHOST) {
             particleType = CNGParticleTypes.GHOST_BURNER_FLAME.get();
-        } else if (HeatLevelEx.isAtMost(heatLevel, HeatLevelEx.SMOOTH)) {
-            particleType = CNGParticleTypes.SMOOTH_BURNER_FLAME.get();
+        } else if (HeatLevelEx.isAtMost(heatLevel, HeatLevelEx.GENTLY)) {
+            particleType = CNGParticleTypes.GENTLY_BURNER_FLAME.get();
         }
 
         if (particleType != null) {
@@ -578,20 +578,20 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
         BlazeBurnerBlock.HeatLevel next = instance.getHeatLevelFromBlock().nextActiveLevel();
 
         SimpleParticleType particleType = ParticleTypes.FLAME;
-        if (next == HeatLevelEx.EXTERMINATE) {
-            particleType = CNGParticleTypes.EXTERMINATE_BURNER_FLAME.get();
+        if (next == HeatLevelEx.COLLAPSE) {
+            particleType = CNGParticleTypes.COLLAPSE_BURNER_FLAME.get();
         } else if (next == HeatLevelEx.OVERLOAD) {
             particleType = CNGParticleTypes.OVERLOAD_BURNER_FLAME.get();
-        } else if (next == HeatLevelEx.RAGE) {
-            particleType = CNGParticleTypes.RAGE_BURNER_FLAME.get();
+        } else if (next == HeatLevelEx.HOT_HEATED) {
+            particleType = CNGParticleTypes.HOT_HEATED_BURNER_FLAME.get();
         } else if (next.isAtLeast(BlazeBurnerBlock.HeatLevel.SEETHING)) {
             particleType = ParticleTypes.SOUL_FIRE_FLAME;
         } else if (next == HeatLevelEx.DRAGON_BREATH) {
             particleType = CNGParticleTypes.DRAGON_BREATH_BURNER_FLAME.get();
         } else if (next == HeatLevelEx.GHOST) {
             particleType = CNGParticleTypes.GHOST_BURNER_FLAME.get();
-        } else if (HeatLevelEx.isAtMost(next, HeatLevelEx.SMOOTH_PERMANENT)) {
-            particleType = CNGParticleTypes.SMOOTH_BURNER_FLAME.get();
+        } else if (HeatLevelEx.isAtMost(next, HeatLevelEx.GENTLY_PERMANENT)) {
+            particleType = CNGParticleTypes.GENTLY_BURNER_FLAME.get();
         }
 
         creative$generation$spawnParticleBurst(particleType);
@@ -600,7 +600,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
     @Inject(method = "applyCreativeFuel", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlockEntity;setBlockHeat(Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlock$HeatLevel;)V"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
     private void inject_applyCreativeFuel_setBlockHeat(CallbackInfo ci, BlazeBurnerBlock.HeatLevel next) {
 
-        if (next == HeatLevelEx.SMOOTH) {
+        if (next == HeatLevelEx.GENTLY) {
             next = next.nextActiveLevel();
         }
 

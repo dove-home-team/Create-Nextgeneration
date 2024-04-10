@@ -44,7 +44,7 @@ public abstract class MixinBlazeBurnerRender extends SafeBlockEntityRenderer<Bla
     @Redirect(method = "renderSafe(Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II)V",
             at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlock$HeatLevel;isAtLeast(Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlock$HeatLevel;)Z"))
     private boolean redirect_renderSafe_isAtLeast(BlazeBurnerBlock.HeatLevel heatLevel, BlazeBurnerBlock.HeatLevel level) {
-        return heatLevel.isAtLeast(BlazeBurnerBlock.HeatLevel.FADING) || HeatLevelEx.isAtMost(heatLevel, HeatLevelEx.SMOOTH);
+        return heatLevel.isAtLeast(BlazeBurnerBlock.HeatLevel.FADING) || HeatLevelEx.isAtMost(heatLevel, HeatLevelEx.GENTLY);
     }
 
     /**
@@ -59,7 +59,7 @@ public abstract class MixinBlazeBurnerRender extends SafeBlockEntityRenderer<Bla
         boolean blockAbove = animation > 0.125f;
         float time = AnimationTickHolder.getRenderTime(level);
         float renderTick = time + (hashCode % 13) * 16f;
-        float offsetMult = heatLevel.isAtLeast(BlazeBurnerBlock.HeatLevel.FADING) || HeatLevelEx.isAtMost(heatLevel, HeatLevelEx.SMOOTH) ? 64 : 16;
+        float offsetMult = heatLevel.isAtLeast(BlazeBurnerBlock.HeatLevel.FADING) || HeatLevelEx.isAtMost(heatLevel, HeatLevelEx.GENTLY) ? 64 : 16;
         float offset = Mth.sin((float) ((renderTick / 16f) % (2 * Math.PI))) / offsetMult;
         float offset1 = Mth.sin((float) ((renderTick / 16f + Math.PI) % (2 * Math.PI))) / offsetMult;
         float offset2 = Mth.sin((float) ((renderTick / 16f + Math.PI / 2) % (2 * Math.PI))) / offsetMult;
@@ -141,7 +141,7 @@ public abstract class MixinBlazeBurnerRender extends SafeBlockEntityRenderer<Bla
                     .renderInto(ms, solid);
         }
 
-        if (heatLevel.isAtLeast(BlazeBurnerBlock.HeatLevel.FADING) || HeatLevelEx.isAtMost(heatLevel, HeatLevelEx.SMOOTH)) {
+        if (heatLevel.isAtLeast(BlazeBurnerBlock.HeatLevel.FADING) || HeatLevelEx.isAtMost(heatLevel, HeatLevelEx.GENTLY)) {
             PartialModel rodsModel = BlazeBurnerRenderHelper.getRodModel1(heatLevel);
             PartialModel rodsModel2 = BlazeBurnerRenderHelper.getRodModel2(heatLevel);
 

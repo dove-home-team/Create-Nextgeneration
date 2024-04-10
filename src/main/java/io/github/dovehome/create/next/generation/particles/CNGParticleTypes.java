@@ -28,17 +28,17 @@ public class CNGParticleTypes {
 
         ParticleEngine particles = Minecraft.getInstance().particleEngine;
 
-        particles.register(RAGE_BURNER_FLAME.get(), FlameParticle.Provider::new);
+        particles.register(HOT_HEATED_BURNER_FLAME.get(), FlameParticle.Provider::new);
         particles.register(OVERLOAD_BURNER_FLAME.get(), FlameParticle.Provider::new);
-        particles.register(EXTERMINATE_BURNER_FLAME.get(), FlameParticle.Provider::new);
-        particles.register(SMOOTH_BURNER_FLAME.get(), FlameParticle.Provider::new);
+        particles.register(COLLAPSE_BURNER_FLAME.get(), FlameParticle.Provider::new);
+        particles.register(GENTLY_BURNER_FLAME.get(), FlameParticle.Provider::new);
         particles.register(GHOST_BURNER_FLAME.get(), FlameParticle.Provider::new);
         particles.register(DRAGON_BREATH_BURNER_FLAME.get(), FlameParticle.Provider::new);
     }
-    public static final RegistryObject<SimpleParticleType> RAGE_BURNER_FLAME = PARTICLE_TYPES.register("rage_burner_flame", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> HOT_HEATED_BURNER_FLAME = PARTICLE_TYPES.register("hot_heated_burner_flame", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> OVERLOAD_BURNER_FLAME = PARTICLE_TYPES.register("overload_burner_flame", () -> new SimpleParticleType(false));
-    public static final RegistryObject<SimpleParticleType> EXTERMINATE_BURNER_FLAME = PARTICLE_TYPES.register("exterminate_burner_flame", () -> new SimpleParticleType(false));
-    public static final RegistryObject<SimpleParticleType> SMOOTH_BURNER_FLAME = PARTICLE_TYPES.register("smooth_burner_flame", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> COLLAPSE_BURNER_FLAME = PARTICLE_TYPES.register("collapse_burner_flame", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> GENTLY_BURNER_FLAME = PARTICLE_TYPES.register("gently_burner_flame", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> GHOST_BURNER_FLAME = PARTICLE_TYPES.register("ghost_burner_flame", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> DRAGON_BREATH_BURNER_FLAME = PARTICLE_TYPES.register("dragon_breath_burner_flame", () -> new SimpleParticleType(false));
 

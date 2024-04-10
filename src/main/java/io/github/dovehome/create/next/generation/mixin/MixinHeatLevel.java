@@ -28,14 +28,14 @@ public abstract class MixinHeatLevel {
 
     @Inject(method = "<clinit>", at = @At("RETURN"))
     private static void inject_clinit(CallbackInfo ci) {
-        HeatLevelEx.RAGE = creative$generation$add("RAGE");
+        HeatLevelEx.HOT_HEATED = creative$generation$add("HOT_HEATED");
         HeatLevelEx.OVERLOAD = creative$generation$add("OVERLOAD");
-        HeatLevelEx.EXTERMINATE = creative$generation$add("EXTERMINATE");
+        HeatLevelEx.COLLAPSE = creative$generation$add("COLLAPSE");
 
         HeatLevelEx.DRAGON_BREATH = creative$generation$add("DRAGON_BREATH");
         HeatLevelEx.GHOST = creative$generation$add("GHOST");
-        HeatLevelEx.SMOOTH_PERMANENT = creative$generation$add("SMOOTH_PERMANENT");
-        HeatLevelEx.SMOOTH = creative$generation$add("SMOOTH");
+        HeatLevelEx.GENTLY_PERMANENT = creative$generation$add("GENTLY_PERMANENT");
+        HeatLevelEx.GENTLY = creative$generation$add("GENTLY");
     }
 
     @Unique

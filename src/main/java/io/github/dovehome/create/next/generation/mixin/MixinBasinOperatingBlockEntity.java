@@ -39,7 +39,7 @@ public abstract class MixinBasinOperatingBlockEntity extends KineticBlockEntity 
                 .getBlockState(basin.getBlockPos()
                         .below(1)));
 
-        if (heatLevel == HeatLevelEx.EXTERMINATE) {
+        if (heatLevel == HeatLevelEx.COLLAPSE) {
             if(basin instanceof IBasinBlockEntityExt basinExt)
                 basinExt.breakBasin();
         } else if (heatLevel == HeatLevelEx.DRAGON_BREATH) {

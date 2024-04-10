@@ -30,12 +30,12 @@ public abstract class MixinHeatCondition {
 
     @Inject(method = "<clinit>", at = @At("RETURN"))
     private static void inject_clinit(CallbackInfo ci) {
-        HeatConditionEx.RAGE_HEATED = creative$generation$add("RAGE_HEATED", 0x5C93E8);
+        HeatConditionEx.HOT_HEATED = creative$generation$add("HOT_HEATED", 0x5C93E8);
         HeatConditionEx.OVERLOADED = creative$generation$add("OVERLOADED", 0x5C93E8);
-        HeatConditionEx.EXTERMINATED = creative$generation$add("EXTERMINATED", 0x5C93E8);
+        HeatConditionEx.COLLAPSED = creative$generation$add("COLLAPSED", 0x5C93E8);
         HeatConditionEx.DRAGON_BREATHING = creative$generation$add("DRAGON_BREATHING", 0x5C93E8);
         HeatConditionEx.GHOST_HEATED = creative$generation$add("GHOST_HEATED", 0x5C93E8);
-        HeatConditionEx.SMOOTH_HEATED = creative$generation$add("SMOOTH_HEATED", 0x5C93E8);
+        HeatConditionEx.GENTLY_HEATED = creative$generation$add("GENTLY_HEATED", 0x5C93E8);
     }
 
     @Unique
@@ -56,20 +56,20 @@ public abstract class MixinHeatCondition {
     public boolean testBlazeBurner(BlazeBurnerBlock.HeatLevel level) {
         HeatCondition thisObj = (HeatCondition) (Object) this;
 
-        if (thisObj == HeatConditionEx.EXTERMINATED) {
-            return level == HeatLevelEx.EXTERMINATE;
+        if (thisObj == HeatConditionEx.COLLAPSED) {
+            return level == HeatLevelEx.COLLAPSE;
         } else if (thisObj == HeatConditionEx.OVERLOADED) {
             return level.isAtLeast(HeatLevelEx.OVERLOAD);
-        } else if (thisObj == HeatConditionEx.RAGE_HEATED) {
-            return level.isAtLeast(HeatLevelEx.RAGE);
+        } else if (thisObj == HeatConditionEx.HOT_HEATED) {
+            return level.isAtLeast(HeatLevelEx.HOT_HEATED);
         } else if (thisObj == HeatCondition.SUPERHEATED) {
             return level.isAtLeast(BlazeBurnerBlock.HeatLevel.SEETHING);
         } else if (thisObj == HeatCondition.HEATED) {
             return level.isAtLeast(BlazeBurnerBlock.HeatLevel.FADING);
         } else if (thisObj == HeatConditionEx.DRAGON_BREATHING) {
             return level == HeatLevelEx.DRAGON_BREATH;
-        } else if (thisObj == HeatConditionEx.SMOOTH_HEATED) {
-            return level == HeatLevelEx.SMOOTH_PERMANENT || level == HeatLevelEx.SMOOTH;
+        } else if (thisObj == HeatConditionEx.GENTLY_HEATED) {
+            return level == HeatLevelEx.GENTLY_PERMANENT || level == HeatLevelEx.GENTLY;
         } else if (thisObj == HeatConditionEx.GHOST_HEATED) {
             return level == HeatLevelEx.GHOST;
         }
@@ -80,18 +80,18 @@ public abstract class MixinHeatCondition {
     @Inject(method = "visualizeAsBlazeBurner", at = @At("HEAD"), cancellable = true)
     public void inject_visualizeAsBlazeBurner(CallbackInfoReturnable<BlazeBurnerBlock.HeatLevel> cir) {
         HeatCondition thisObj = (HeatCondition) (Object) this;
-        if (thisObj == HeatConditionEx.RAGE_HEATED) {
-            cir.setReturnValue(HeatLevelEx.RAGE);
+        if (thisObj == HeatConditionEx.HOT_HEATED) {
+            cir.setReturnValue(HeatLevelEx.HOT_HEATED);
         } else if (thisObj == HeatConditionEx.OVERLOADED) {
             cir.setReturnValue(HeatLevelEx.OVERLOAD);
-        } else if (thisObj == HeatConditionEx.EXTERMINATED) {
-            cir.setReturnValue(HeatLevelEx.EXTERMINATE);
+        } else if (thisObj == HeatConditionEx.COLLAPSED) {
+            cir.setReturnValue(HeatLevelEx.COLLAPSE);
         } else if (thisObj == HeatConditionEx.DRAGON_BREATHING) {
             cir.setReturnValue(HeatLevelEx.DRAGON_BREATH);
         } else if (thisObj == HeatConditionEx.GHOST_HEATED) {
             cir.setReturnValue(HeatLevelEx.GHOST);
-        } else if (thisObj == HeatConditionEx.SMOOTH_HEATED) {
-            cir.setReturnValue(HeatLevelEx.SMOOTH_PERMANENT);
+        } else if (thisObj == HeatConditionEx.GENTLY_HEATED) {
+            cir.setReturnValue(HeatLevelEx.GENTLY_PERMANENT);
         } else {
             // use default logic
             return;

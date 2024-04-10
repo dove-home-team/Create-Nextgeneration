@@ -1,11 +1,8 @@
 package io.github.dovehome.create.next.generation.mixin;
 
 
-
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
-import com.simibubi.create.content.processing.burner.BlazeBurnerBlockEntity;
 import io.github.dovehome.create.next.generation.data.HeatLevelEx;
-import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,6 +19,7 @@ public abstract class MixinHeatLevel {
     @Shadow
     @Mutable
     private static BlazeBurnerBlock.HeatLevel[] $VALUES;
+
     @Invoker("<init>")
     public static BlazeBurnerBlock.HeatLevel creative$generation$init(String name, int ordinal) {
         throw new AssertionError();
@@ -51,9 +49,16 @@ public abstract class MixinHeatLevel {
 
     @Inject(method = "isAtLeast", at = @At("HEAD"), cancellable = true)
     public void inject_isAtLeast(BlazeBurnerBlock.HeatLevel heatLevel, CallbackInfoReturnable<Boolean> cir) {
-        boolean ret =  HeatLevelEx.getActualIndex((BlazeBurnerBlock.HeatLevel) (Object) this) >= HeatLevelEx.getActualIndex(heatLevel);
+        boolean ret = HeatLevelEx.getActualIndex((BlazeBurnerBlock.HeatLevel) (Object) this) >= HeatLevelEx.getActualIndex(heatLevel);
         cir.setReturnValue(ret);
         cir.cancel();
+    }
+
+    @Inject(method = "nextActiveLevel", at = @At("HEAD"), cancellable = true)
+    public void inject_nextActiveLevel(CallbackInfoReturnable<BlazeBurnerBlock.HeatLevel> cir) {
+        int index = HeatLevelEx.getActualIndex((BlazeBurnerBlock.HeatLevel) (Object) this);
+        BlazeBurnerBlock.HeatLevel ret = HeatLevelEx.byActualIndex((index % (HeatLevelEx.levelCount() - 1) + 1));
+        cir.setReturnValue(ret);
     }
 
 }

@@ -22,6 +22,8 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
@@ -102,6 +104,30 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
     @Unique
     private ExtendBurnerState creative$generation$extendState = ExtendBurnerState.DEFAULT;
 
+    @Unique
+    private MutableComponent creative$generation$getLevelName(BlazeBurnerBlock.HeatLevel level) {
+        Style style = Style.EMPTY;
+        if (level == HeatLevelEx.RAGE) {
+            return CNGLang.translateDirect("gui.goggles.burner_stat.rage").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.HOT_HEATED)));
+        } else if (level == HeatLevelEx.OVERLOAD) {
+            return CNGLang.translateDirect("gui.goggles.burner_stat.overload").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.OVERLOAD)));
+        } else if (level == HeatLevelEx.EXTERMINATE) {
+            return CNGLang.translateDirect("gui.goggles.burner_stat.exterminate").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.COLLAPSE)));
+        } else if (level == HeatLevelEx.DRAGON_BREATH) {
+            return CNGLang.translateDirect("gui.goggles.burner_stat.dragon_breath").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.DRAGON_BREATH)));
+        } else if (level == HeatLevelEx.GHOST) {
+            return CNGLang.translateDirect("gui.goggles.burner_stat.ghost").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.GHOST)));
+        } else if (level == HeatLevelEx.SMOOTH_PERMANENT || level == HeatLevelEx.SMOOTH) {
+            return CNGLang.translateDirect("gui.goggles.burner_stat.smooth").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.GENTLY)));
+        } else if (level == BlazeBurnerBlock.HeatLevel.FADING || level == BlazeBurnerBlock.HeatLevel.KINDLED) {
+            return CNGLang.translateDirect("gui.goggles.burner_stat.kindled").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.HEATED)));
+        } else if (level == BlazeBurnerBlock.HeatLevel.SEETHING) {
+            return CNGLang.translateDirect("gui.goggles.burner_stat.seething").withStyle(style.withColor(TextColor.fromRgb(HeatLevelEx.Colors.SUPERHEATED)));
+        } else if (level == BlazeBurnerBlock.HeatLevel.SMOULDERING) {
+            return CNGLang.translateDirect("gui.goggles.burner_stat.smouldering").withStyle(ChatFormatting.GRAY);
+        }
+        return Lang.translateDirect("gui.goggles.burner_stat.none");
+    }
 
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
@@ -109,27 +135,8 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
 
         BlazeBurnerBlock.HeatLevel heatLevel = getHeatLevelFromBlock();
 
-        MutableComponent heatLevelComponent = CNGLang.translateDirect("gui.goggles.burner_stat.none").withStyle(ChatFormatting.DARK_GRAY);
-        if (heatLevel == BlazeBurnerBlock.HeatLevel.SMOULDERING) {
-            heatLevelComponent = CNGLang.translateDirect("gui.goggles.burner_stat.smouldering").withStyle(ChatFormatting.DARK_GRAY);
-        } else if (heatLevel == BlazeBurnerBlock.HeatLevel.KINDLED || heatLevel == BlazeBurnerBlock.HeatLevel.FADING) {
-            heatLevelComponent = CNGLang.translateDirect("gui.goggles.burner_stat.kindled").withStyle(ChatFormatting.YELLOW);
-        } else if (heatLevel == BlazeBurnerBlock.HeatLevel.SEETHING) {
-            heatLevelComponent = CNGLang.translateDirect("gui.goggles.burner_stat.seething").withStyle(ChatFormatting.DARK_BLUE);
-        } else if (heatLevel == HeatLevelEx.RAGE) {
-            heatLevelComponent = CNGLang.translateDirect("gui.goggles.burner_stat.rage").withStyle(ChatFormatting.GOLD);
-        } else if (heatLevel == HeatLevelEx.OVERLOAD) {
-            heatLevelComponent = CNGLang.translateDirect("gui.goggles.burner_stat.overload").withStyle(ChatFormatting.WHITE);
-        } else if (heatLevel == HeatLevelEx.EXTERMINATE) {
-            heatLevelComponent = CNGLang.translateDirect("gui.goggles.burner_stat.exterminate").withStyle(ChatFormatting.BLACK);
-        } else if (heatLevel == HeatLevelEx.DRAGON_BREATH) {
-            heatLevelComponent = CNGLang.translateDirect("gui.goggles.burner_stat.dragon_breath").withStyle(ChatFormatting.LIGHT_PURPLE);
-        } else if (heatLevel == HeatLevelEx.GHOST) {
-            heatLevelComponent = CNGLang.translateDirect("gui.goggles.burner_stat.ghost").withStyle(ChatFormatting.BLUE);
-        } else if (heatLevel == HeatLevelEx.SMOOTH_PERMANENT || heatLevel == HeatLevelEx.SMOOTH) {
-            heatLevelComponent = CNGLang.translateDirect("gui.goggles.burner_stat.smooth").withStyle(ChatFormatting.GRAY);
-        }
-        CNGLang.translate("gui.goggles.burner_stat", heatLevelComponent.withStyle(ChatFormatting.BOLD)).forGoggles(tooltip);
+        MutableComponent heatLevelComponent = creative$generation$getLevelName(heatLevel);
+        CNGLang.translate("gui.goggles.burner_stat", heatLevelComponent).forGoggles(tooltip);
 
         if (heatLevel == BlazeBurnerBlock.HeatLevel.NONE || heatLevel == BlazeBurnerBlock.HeatLevel.SMOULDERING) {
 
@@ -147,8 +154,6 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
         } else {
             burnTimeComponent = CNGLang.translateDirect("gui.goggles.burner_stat.burn_time.seconds", remainingBurnTime / 20).withStyle(ChatFormatting.YELLOW);
         }
-
-        burnTimeComponent = burnTimeComponent.withStyle(ChatFormatting.BOLD);
 
         if (heatLevel == HeatLevelEx.SMOOTH) {
             CNGLang.translate("gui.goggles.burner_stat.cooldown").style(ChatFormatting.RED).forGoggles(tooltip, 1);
@@ -595,8 +600,13 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
     @Inject(method = "applyCreativeFuel", at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlockEntity;setBlockHeat(Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlock$HeatLevel;)V"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
     private void inject_applyCreativeFuel_setBlockHeat(CallbackInfo ci, BlazeBurnerBlock.HeatLevel next) {
 
-        if (next == HeatLevelEx.SMOOTH)
+        if (next == HeatLevelEx.SMOOTH) {
             next = next.nextActiveLevel();
+        }
+
+        if (next == BlazeBurnerBlock.HeatLevel.FADING) {
+            next = next.nextActiveLevel();
+        }
         this.setBlockHeat(next);
         ci.cancel();
     }

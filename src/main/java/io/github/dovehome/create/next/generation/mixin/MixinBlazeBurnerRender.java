@@ -44,7 +44,7 @@ public abstract class MixinBlazeBurnerRender extends SafeBlockEntityRenderer<Bla
     @Redirect(method = "renderSafe(Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II)V",
             at = @At(value = "INVOKE", target = "Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlock$HeatLevel;isAtLeast(Lcom/simibubi/create/content/processing/burner/BlazeBurnerBlock$HeatLevel;)Z"))
     private boolean redirect_renderSafe_isAtLeast(BlazeBurnerBlock.HeatLevel heatLevel, BlazeBurnerBlock.HeatLevel level) {
-        return heatLevel.isAtLeast(BlazeBurnerBlock.HeatLevel.FADING) || HeatLevelEx.isAtMost(heatLevel, HeatLevelEx.GENTLY);
+        return HeatLevelEx.isBurning(heatLevel);
     }
 
     /**
@@ -59,7 +59,7 @@ public abstract class MixinBlazeBurnerRender extends SafeBlockEntityRenderer<Bla
         boolean blockAbove = animation > 0.125f;
         float time = AnimationTickHolder.getRenderTime(level);
         float renderTick = time + (hashCode % 13) * 16f;
-        float offsetMult = heatLevel.isAtLeast(BlazeBurnerBlock.HeatLevel.FADING) || HeatLevelEx.isAtMost(heatLevel, HeatLevelEx.GENTLY) ? 64 : 16;
+        float offsetMult = HeatLevelEx.isBurning(heatLevel) ? 64 : 16;
         float offset = Mth.sin((float) ((renderTick / 16f) % (2 * Math.PI))) / offsetMult;
         float offset1 = Mth.sin((float) ((renderTick / 16f + Math.PI) % (2 * Math.PI))) / offsetMult;
         float offset2 = Mth.sin((float) ((renderTick / 16f + Math.PI / 2) % (2 * Math.PI))) / offsetMult;
@@ -83,15 +83,21 @@ public abstract class MixinBlazeBurnerRender extends SafeBlockEntityRenderer<Bla
                     - spriteShift.getTarget()
                     .getV0();
 
+
             float speed = BlazeBurnerRenderHelper.getFlameSpeed(heatLevel);
 
-            double vScroll = speed * time;
-            vScroll = vScroll - Math.floor(vScroll);
-            vScroll = vScroll * spriteHeight / 2;
+            double repeatY = 1.0 * spriteShift.getTarget().getHeight() / spriteShift.getOriginal().getWidth();
+            double repeatZ = 1.0 * spriteShift.getTarget().getWidth() / spriteShift.getOriginal().getHeight();
 
-            double uScroll = speed * time / 2;
+            double vScroll = speed * time / (repeatY - 1);
+            vScroll = vScroll - Math.floor(vScroll);
+            vScroll = vScroll * spriteHeight * (1 - 1 / repeatY);
+
+
+
+            double uScroll = speed * time * (repeatZ - 1) / 2;
             uScroll = uScroll - Math.floor(uScroll);
-            uScroll = uScroll * spriteWidth / 2;
+            uScroll = uScroll * spriteWidth * (1 - 1 / repeatZ);
 
             SuperByteBuffer flameBuffer = CachedBufferer.partial(AllPartialModels.BLAZE_BURNER_FLAME, blockState);
             if (modelTransform != null)
@@ -141,7 +147,7 @@ public abstract class MixinBlazeBurnerRender extends SafeBlockEntityRenderer<Bla
                     .renderInto(ms, solid);
         }
 
-        if (heatLevel.isAtLeast(BlazeBurnerBlock.HeatLevel.FADING) || HeatLevelEx.isAtMost(heatLevel, HeatLevelEx.GENTLY)) {
+        if (HeatLevelEx.isBurning(heatLevel)) {
             PartialModel rodsModel = BlazeBurnerRenderHelper.getRodModel1(heatLevel);
             PartialModel rodsModel2 = BlazeBurnerRenderHelper.getRodModel2(heatLevel);
 

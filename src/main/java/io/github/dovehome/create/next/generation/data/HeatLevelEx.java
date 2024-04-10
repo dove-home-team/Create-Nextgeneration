@@ -80,6 +80,10 @@ public final class HeatLevelEx {
         return getActualIndex(instance) <= getActualIndex(most);
     }
 
+    public static boolean isBurning(BlazeBurnerBlock.HeatLevel heatLevel) {
+        return heatLevel != BlazeBurnerBlock.HeatLevel.NONE && heatLevel != BlazeBurnerBlock.HeatLevel.SMOULDERING;
+    }
+
     public static final class Colors {
 
         public static final int COLLAPSE = 0x566462;

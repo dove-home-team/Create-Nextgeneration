@@ -123,6 +123,13 @@ repositories {
             includeGroup("mcjty.theoneprobe")
         }
     }
+
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
@@ -148,6 +155,8 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 
     implementation fg.deobf("mcjty.theoneprobe:theoneprobe:${top_version}") { transitive = false }
+
+//    runtimeOnly fg.deobf("curse.maven:texturedump-319039:3573998")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

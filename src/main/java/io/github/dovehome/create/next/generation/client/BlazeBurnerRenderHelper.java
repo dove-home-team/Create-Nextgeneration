@@ -33,22 +33,21 @@ public final class BlazeBurnerRenderHelper {
     public static int getFlameSpeedLevel(BlazeBurnerBlock.HeatLevel heatLevel) {
         int speed;
 
-        if (heatLevel.isAtLeast(BlazeBurnerBlock.HeatLevel.SEETHING)) {
-            speed = heatLevel.ordinal();
+        if (heatLevel.isAtLeast(HeatLevelEx.HOT_HEATED)) {
+            speed = HeatLevelEx.getActualIndex(heatLevel) - 1;
         } else if (HeatLevelEx.isAtMost(heatLevel, HeatLevelEx.GHOST)) {
-            speed = 4 + HeatLevelEx.getActualIndex(heatLevel);
+            speed = 5;
         } else if (HeatLevelEx.isAtMost(heatLevel, HeatLevelEx.GENTLY)) {
-            speed = 2;
+            speed = 4;
         } else {
-            speed = 3;
+            speed = 6;
         }
-
         return speed;
     }
 
     public static float getFlameSpeed(BlazeBurnerBlock.HeatLevel heatLevel) {
 
-        return 1 / 32f + 1 / 64f * getFlameSpeedLevel(heatLevel);
+        return 1 / 32f + 1 / 128f * getFlameSpeedLevel(heatLevel);
     }
 
     public static PartialModel getBurnerModel(BlazeBurnerBlock.HeatLevel heatLevel, boolean blockAbove) {

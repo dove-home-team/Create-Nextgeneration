@@ -27,12 +27,10 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
-import org.checkerframework.checker.units.qual.A;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -210,7 +208,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
                 case GHOST -> particleType = CNGParticleTypes.GHOST_BURNER_FLAME.get();
                 case GENTLY_PERMANENT -> particleType = CNGParticleTypes.GENTLY_BURNER_FLAME.get();
                 case COLLAPSE -> particleType = CNGParticleTypes.COLLAPSE_BURNER_FLAME.get();
-                case HOT_HEATED -> particleType = CNGParticleTypes.HOT_HEATED_BURNER_FLAME.get();
+                case SUPER_HEATED -> particleType = CNGParticleTypes.HOT_HEATED_BURNER_FLAME.get();
             }
 
             creative$generation$spawnParticleBurst(particleType);
@@ -232,8 +230,6 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
             return;
         }
         if (itemStack.is(CNGTags.BLAZE_BURNER_CATALYST_POTENTIAL)) {
-
-            // TODO 添加声音和粒子效果
             if (!simulate) {
                 creative$generation$potentialCatalyst = true;
                 notifyUpdate();
@@ -297,7 +293,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
                     cir.cancel();
                 }
             }
-            case GHOST, HOT_HEATED -> {
+            case GHOST, SUPER_HEATED -> {
                 boolean isGhost = creative$generation$extendState == ExtendBurnerState.GHOST;
                 if (remainingBurnTime > INSERTION_THRESHOLD && !(forceOverflow && !isGhost)) {
                     cir.setReturnValue(false);
@@ -389,6 +385,10 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
     private void inject_getHeatLevel(CallbackInfoReturnable<BlazeBurnerBlock.HeatLevel> cir) {
         switch (creative$generation$extendState) {
             case DEFAULT -> {
+                if(activeFuel == BlazeBurnerBlockEntity.FuelType.SPECIAL) {
+                    cir.setReturnValue(HeatLevelEx.HOT_HEATED);
+                    cir.cancel();
+                }
                 // use previous logic
                 return;
             }
@@ -396,7 +396,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
             case DRAGON_BREATH -> cir.setReturnValue(HeatLevelEx.DRAGON_BREATH);
             case GHOST -> cir.setReturnValue(HeatLevelEx.GHOST);
             case COLLAPSE -> cir.setReturnValue(HeatLevelEx.COLLAPSE);
-            case HOT_HEATED -> cir.setReturnValue(HeatLevelEx.HOT_HEATED);
+            case SUPER_HEATED -> cir.setReturnValue(BlazeBurnerBlock.HeatLevel.SEETHING);
             case GENTLY_PERMANENT -> cir.setReturnValue(HeatLevelEx.GENTLY_PERMANENT);
             case GENTLY_TEMPORARY -> cir.setReturnValue(HeatLevelEx.GENTLY);
         }
@@ -431,7 +431,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
 
             // 60s
             if (creative$generation$burningTicks >= 60 * 20) {
-                creative$generation$extendState = ExtendBurnerState.HOT_HEATED;
+                creative$generation$extendState = ExtendBurnerState.SUPER_HEATED;
                 creative$generation$burningTicks = 0;
 
                 remainingBurnTime /= 2;
@@ -461,7 +461,7 @@ public abstract class MixinBlazeBurnerBlockEntity extends SmartBlockEntity imple
         }
 
 
-        if (creative$generation$extendState == ExtendBurnerState.HOT_HEATED) {
+        if (creative$generation$extendState == ExtendBurnerState.SUPER_HEATED) {
             if (remainingBurnTime > 0) {
                 remainingBurnTime--;
             } else {

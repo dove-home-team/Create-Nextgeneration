@@ -2,7 +2,7 @@ package io.github.dovehome.create.next.generation.data;
 
 public enum ExtendBurnerState {
     DEFAULT, // 原版烈焰人燃烧室的逻辑
-    HOT_HEATED, // 狂怒状态
+    SUPER_HEATED, // 超级加热
     OVERLOAD, // 过热状态
     COLLAPSE, // 坍毁状态
 

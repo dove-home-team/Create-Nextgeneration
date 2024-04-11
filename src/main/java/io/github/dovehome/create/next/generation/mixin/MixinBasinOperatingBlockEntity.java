@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -40,8 +41,7 @@ public abstract class MixinBasinOperatingBlockEntity extends KineticBlockEntity 
                         .below(1)));
 
         if (heatLevel == HeatLevelEx.COLLAPSE) {
-            if(basin instanceof IBasinBlockEntityExt basinExt)
-                basinExt.breakBasin();
+            creative$generation$willBreak.set(true);
         } else if (heatLevel == HeatLevelEx.DRAGON_BREATH) {
             if (level == null)
                 return;
@@ -49,6 +49,33 @@ public abstract class MixinBasinOperatingBlockEntity extends KineticBlockEntity 
             if (!(burnerBE instanceof IBlazeBurnerBlockEntityExt burnerExt))
                 return;
             burnerExt.create$generation$consumeFuel();
+        }
+
+    }
+    @Inject(method = "applyBasinRecipe", at = @At("HEAD"))
+    private void inject_applyBasinRecipe_head(CallbackInfo ci) {
+        creative$generation$willBreak.set(false);
+    }
+    @Inject(method = "applyBasinRecipe", at = @At(value = "INVOKE",
+            target = "Lcom/simibubi/create/content/processing/basin/BasinOperatingBlockEntity;continueWithPreviousRecipe()Z"))
+    private void inject_applyBasinRecipe_continueWithPreviousRecipe(CallbackInfo ci) {
+        creative$generation$willBreak.set(false);
+    }
+
+
+    @Unique
+    ThreadLocal<Boolean> creative$generation$willBreak = ThreadLocal.withInitial(() -> false);
+
+    @Inject(method = "applyBasinRecipe", at = @At("TAIL"))
+    private void inject_applyBasinRecipe_end(CallbackInfo ci) {
+        if(!creative$generation$willBreak.get()) {
+            return;
+        }
+        creative$generation$willBreak.set(false);
+
+        BasinBlockEntity basin = getBasin().orElse(null);
+        if(basin instanceof IBasinBlockEntityExt basinExt) {
+            basinExt.breakBasin();
         }
 
     }

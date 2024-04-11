@@ -11,10 +11,13 @@
     "MixinBlazeBurnerBlockEntityClient"
   ],
   "mixins": [
+    "MixinBasinCategory",
     "MixinBasinOperatingBlockEntity",
+    "MixinBasinRecipe",
     "MixinBlazeBurnerRender",
     "MixinHeatCondition",
-    "MixinHeatLevel"
+    "MixinHeatLevel",
+    "MixinProcessingRecipe"
   ],
   "injectors": {
     "defaultRequire": 1

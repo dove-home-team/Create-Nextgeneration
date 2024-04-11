@@ -97,23 +97,7 @@ public abstract class MixinBlazeBurnerRender extends SafeBlockEntityRenderer<Bla
 //            uScroll = uScroll - Math.floor(uScroll);
 //            uScroll = uScroll * spriteWidth * (1 - 1 / repeatZ);
 
-            double vScroll = speed * time;
-
-            if (heatLevel == HeatLevelEx.OVERLOAD) {
-                vScroll += 0.5;
-            } else if (heatLevel == HeatLevelEx.COLLAPSE) {
-                vScroll += 4.0 / 16.0;
-            }
-
-            vScroll = vScroll - Math.floor(vScroll);
-            if (heatLevel == HeatLevelEx.COLLAPSE) {
-                if (vScroll >= 8.0 / 16.0) {
-                    vScroll += 1.0;
-                }
-                vScroll = vScroll * spriteHeight / 3;
-            } else {
-                vScroll = vScroll * spriteHeight / 2;
-            }
+            double vScroll = BlazeBurnerRenderHelper.getBurnerVScroll(heatLevel, speed, time, spriteHeight);
 
             double uScroll = speed * time / 2;
             uScroll = uScroll - Math.floor(uScroll);

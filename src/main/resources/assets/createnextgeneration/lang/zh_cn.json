@@ -17,5 +17,13 @@
   "createnextgeneration.gui.goggles.burner_stat.crafting_times": "剩余配方次数：%1$s",
   "createnextgeneration.gui.goggles.burner_stat.burn_time.infinite": "无限",
   "createnextgeneration.gui.goggles.burner_stat.burn_time.seconds": "%1$s 秒",
-  "createnextgeneration.gui.goggles.burner_stat.burn_time.times": "%1$s 次"
+  "createnextgeneration.gui.goggles.burner_stat.burn_time.times": "%1$s 次",
+
+
+  "create.recipe.heat_requirement.hot_heated": "高温加热",
+  "create.recipe.heat_requirement.overloaded": "过载加热",
+  "create.recipe.heat_requirement.collapsed": "坍毁加热",
+  "create.recipe.heat_requirement.dragon_breathing": "龙息加热",
+  "create.recipe.heat_requirement.ghost_heated": "鬼缠加热",
+  "create.recipe.heat_requirement.gently_heated": "平缓加热"
 }

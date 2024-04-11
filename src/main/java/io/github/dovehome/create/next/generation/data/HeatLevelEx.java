@@ -4,15 +4,15 @@ import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 
 public final class HeatLevelEx {
 
-    public static BlazeBurnerBlock.HeatLevel HOT_HEATED;
-    public static BlazeBurnerBlock.HeatLevel OVERLOAD;
-    public static BlazeBurnerBlock.HeatLevel COLLAPSE;
+    public static BlazeBurnerBlock.HeatLevel HOT_HEATED; // 8
+    public static BlazeBurnerBlock.HeatLevel OVERLOAD; // 10
+    public static BlazeBurnerBlock.HeatLevel COLLAPSE; // 11
 
 
-    public static BlazeBurnerBlock.HeatLevel DRAGON_BREATH; // -4
-    public static BlazeBurnerBlock.HeatLevel GHOST; // -3
-    public static BlazeBurnerBlock.HeatLevel GENTLY_PERMANENT; // -2
-    public static BlazeBurnerBlock.HeatLevel GENTLY; // -1
+    public static BlazeBurnerBlock.HeatLevel DRAGON_BREATH; // 1
+    public static BlazeBurnerBlock.HeatLevel GHOST; // 2
+    public static BlazeBurnerBlock.HeatLevel GENTLY_PERMANENT; // 4
+    public static BlazeBurnerBlock.HeatLevel GENTLY; // 5
 
 
     private static class Holder {

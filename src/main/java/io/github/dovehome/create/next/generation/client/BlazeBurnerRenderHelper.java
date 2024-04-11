@@ -113,4 +113,26 @@ public final class BlazeBurnerRenderHelper {
             return AllPartialModels.BLAZE_BURNER_RODS_2;
         }
     }
+
+
+    public static double getBurnerVScroll(BlazeBurnerBlock.HeatLevel heatLevel, float speed, float time, float spriteHeight) {
+        double vScroll = speed * time;
+
+        if (heatLevel == HeatLevelEx.OVERLOAD) {
+            vScroll += 0.5;
+        } else if (heatLevel == HeatLevelEx.COLLAPSE) {
+            vScroll += 4.0 / 16.0;
+        }
+
+        vScroll = vScroll - Math.floor(vScroll);
+        if (heatLevel == HeatLevelEx.COLLAPSE) {
+            if (vScroll >= 8.0 / 16.0) {
+                vScroll += 1.0;
+            }
+            vScroll = vScroll * spriteHeight / 3;
+        } else {
+            vScroll = vScroll * spriteHeight / 2;
+        }
+        return vScroll;
+    }
 }

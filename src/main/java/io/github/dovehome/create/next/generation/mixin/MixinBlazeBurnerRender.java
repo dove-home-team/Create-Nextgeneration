@@ -86,18 +86,38 @@ public abstract class MixinBlazeBurnerRender extends SafeBlockEntityRenderer<Bla
 
             float speed = BlazeBurnerRenderHelper.getFlameSpeed(heatLevel);
 
-            double repeatY = 1.0 * spriteShift.getTarget().getHeight() / spriteShift.getOriginal().getWidth();
-            double repeatZ = 1.0 * spriteShift.getTarget().getWidth() / spriteShift.getOriginal().getHeight();
+//            double repeatY = 1.0 * spriteShift.getTarget().getHeight() / spriteShift.getOriginal().getWidth();
+//            double repeatZ = 1.0 * spriteShift.getTarget().getWidth() / spriteShift.getOriginal().getHeight();
+//
+//            double vScroll = speed * time / (repeatY - 1);
+//            vScroll = vScroll - Math.floor(vScroll);
+//            vScroll = vScroll * spriteHeight * (1 - 1 / repeatY);
+//
+//            double uScroll = speed * time / (repeatZ - 1) / 2;
+//            uScroll = uScroll - Math.floor(uScroll);
+//            uScroll = uScroll * spriteWidth * (1 - 1 / repeatZ);
 
-            double vScroll = speed * time / (repeatY - 1);
+            double vScroll = speed * time;
+
+            if (heatLevel == HeatLevelEx.OVERLOAD) {
+                vScroll += 0.5;
+            } else if (heatLevel == HeatLevelEx.COLLAPSE) {
+                vScroll += 4.0 / 16.0;
+            }
+
             vScroll = vScroll - Math.floor(vScroll);
-            vScroll = vScroll * spriteHeight * (1 - 1 / repeatY);
+            if (heatLevel == HeatLevelEx.COLLAPSE) {
+                if (vScroll >= 8.0 / 16.0) {
+                    vScroll += 1.0;
+                }
+                vScroll = vScroll * spriteHeight / 3;
+            } else {
+                vScroll = vScroll * spriteHeight / 2;
+            }
 
-
-
-            double uScroll = speed * time * (repeatZ - 1) / 2;
+            double uScroll = speed * time / 2;
             uScroll = uScroll - Math.floor(uScroll);
-            uScroll = uScroll * spriteWidth * (1 - 1 / repeatZ);
+            uScroll = uScroll * spriteWidth / 2;
 
             SuperByteBuffer flameBuffer = CachedBufferer.partial(AllPartialModels.BLAZE_BURNER_FLAME, blockState);
             if (modelTransform != null)

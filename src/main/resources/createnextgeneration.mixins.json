@@ -16,6 +16,8 @@
     "MixinBasinOperatingBlockEntity",
     "MixinBasinRecipe",
     "MixinBlazeBurnerRender",
+    "MixinBoilerData",
+    "MixinBoilerHeater",
     "MixinHeatCondition",
     "MixinHeatLevel",
     "MixinProcessingRecipe",

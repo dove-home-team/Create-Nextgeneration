@@ -1,5 +1,7 @@
 package io.github.dovehome.create.next.generation;
 
+import io.github.dovehome.create.next.generation.blockies.CNGBlocks;
+import io.github.dovehome.create.next.generation.blockies.tile.CNGBlockEntityTypes;
 import io.github.dovehome.create.next.generation.config.CreateNextGenerationConfig;
 import io.github.dovehome.create.next.generation.particles.CNGParticleTypes;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,7 +26,10 @@ public class CreateNextGeneration {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CreateNextGenerationConfig.GENERAL_SPEC, "create-next-generation.toml");
 
+        CNGBlocks.init();
+        CNGBlockEntityTypes.init();
         CNGParticleTypes.init();
+
 
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> CreateNextGenerationClient::onCtorClient);
     }
